@@ -3,18 +3,16 @@ package ru.skillbox.demo.entity;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@SQLDelete(sql = "UPDATE User SET deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE users_scheme.users SET deleted = true WHERE id = ?")
 @Where(clause = "deleted=false")
-public class User {
+@Table(name = "users", schema = "users_scheme")
+public class Users {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
     private String login;
@@ -24,8 +22,8 @@ public class User {
     private LocalDate birthday;
     private boolean deleted = Boolean.FALSE;
 
-    public User() {}
-    public User(String email, String login, String password, String firstName, String lastName, LocalDate birthday) {
+    public Users() {}
+    public Users(String email, String login, String password, String firstName, String lastName, LocalDate birthday) {
         this.email = email;
         this.login = login;
         this.password = password;
@@ -33,7 +31,7 @@ public class User {
         this.lastName = lastName;
         this.birthday = birthday;
     }
-    public User(Long id, String email, String login, String password, String firstName, String lastName, LocalDate birthday) {
+    public Users(Long id, String email, String login, String password, String firstName, String lastName, LocalDate birthday) {
         this.id = id;
         this.email = email;
         this.login = login;

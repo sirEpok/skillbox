@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import ru.skillbox.demo.entity.Subscription;
-import ru.skillbox.demo.entity.User;
+import ru.skillbox.demo.entity.Users;
 import ru.skillbox.demo.entity.UserId;
 import ru.skillbox.demo.repository.SubscriptionRepository;
 import ru.skillbox.demo.repository.UserRepository;
@@ -21,37 +21,43 @@ public class UserService {
         this.subscriptionRepository = subscriptionRepository;
     }
 
-    public String createUser(User user) {
-        User savedUser = userRepository.save(user);
+    public String createUser(Users user) {
+        Users savedUser = userRepository.save(user);
         return String.format("Пользователь %s добавлен в базу с id = %s", savedUser.getLogin(), savedUser.getId());
     }
-    public User getUser(long id) {
+    public Users getUser(long id) {
         return userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
-    public String updateUser(User user, long id) {
+    public boolean updateUser(Users user, long id) {
         if (!userRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        User updateUser = new User(
-                id,
-                user.getEmail(),
-                user.getLogin(),
-                user.getPassword(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getBirthday());
-        User savedUser = userRepository.save(updateUser);
-        return String.format("Пользователь %s успешно сохранен", savedUser.getLastName());
+        if (userRepository.existsById(id)) {
+            Users updateUser = new Users(
+                    id,
+                    user.getEmail(),
+                    user.getLogin(),
+                    user.getPassword(),
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getBirthday());
+            Users savedUser = userRepository.save(updateUser);
+            return true;
+        }
+        return false;
     }
-    public String deleteUser(long id) {
+    public boolean deleteUser(long id) {
         if (!userRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        userRepository.deleteById(id);
-        return String.format("Пользователь с id = %s успешно удален", id);
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
-    public List<User> getUsers() {
-        return (List<User>) userRepository.findAll();
+    public List<Users> getUsers() {
+        return (List<Users>) userRepository.findAll();
     }
     public String subscriptionUsers(Long sid, Long tid) {
         if (sid == tid) {
