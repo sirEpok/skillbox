@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  postgres-db:
+    image: postgres:16
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - .\database:/var/lib/postgresql/data
+      - .\init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 5001:5432
+
+  app:
+    image: client:0.0.1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db/users
+    ports:
+      - 8008:8080
+    depends_on:
+      - postgres-db
+
+networks:
+  default:
+    external:
+      name: test-net
