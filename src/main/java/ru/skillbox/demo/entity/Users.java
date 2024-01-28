@@ -20,18 +20,20 @@ public class Users {
     private String firstName;
     private String lastName;
     private LocalDate birthday;
+    private String city;
     private boolean deleted = Boolean.FALSE;
 
     public Users() {}
-    public Users(String email, String login, String password, String firstName, String lastName, LocalDate birthday) {
+    public Users(String email, String login, String password, String firstName, String lastName, LocalDate birthday, String city) {
         this.email = email;
         this.login = login;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
+        this.city = city;
     }
-    public Users(Long id, String email, String login, String password, String firstName, String lastName, LocalDate birthday) {
+    public Users(Long id, String email, String login, String password, String firstName, String lastName, LocalDate birthday, String city) {
         this.id = id;
         this.email = email;
         this.login = login;
@@ -39,6 +41,7 @@ public class Users {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
+        this.city = city;
     }
 
     public Long getId() {
@@ -82,6 +85,12 @@ public class Users {
     }
     public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
+    }
+    public String getCity() {
+        return city;
+    }
+    public void setCity(String city) {
+        this.city = city;
     }
 
     @Override

@@ -18,7 +18,9 @@ create table users_scheme.users(
     password character varying,
     first_name character varying,
     last_name character varying,
-    birthday date
+    birthday date,
+    city character varying,
+    deleted boolean
 );
 
 create table users_scheme.posts(
@@ -48,5 +50,9 @@ create table users_scheme.subscription(
     FOREIGN KEY (source_user_id) REFERENCES users_scheme.users(id),
     FOREIGN KEY (target_user_id) REFERENCES users_scheme.users(id)
 );
+
+create index i_user_login on users_scheme.users(login);
+create index i_user_city on users_scheme.users(city);
+CREATE INDEX i_user_city_and_login ON users_scheme.users (login, city);
 
 EOSQL

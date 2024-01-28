@@ -40,7 +40,8 @@ public class UserService {
                     user.getPassword(),
                     user.getFirstName(),
                     user.getLastName(),
-                    user.getBirthday());
+                    user.getBirthday(),
+                    user.getCity());
             Users savedUser = userRepository.save(updateUser);
             return true;
         }
