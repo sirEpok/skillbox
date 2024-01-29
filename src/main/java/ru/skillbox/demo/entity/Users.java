@@ -1,9 +1,11 @@
 package ru.skillbox.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 @Entity
@@ -14,11 +16,17 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Email
     private String email;
+    @NotEmpty(message = "Логин не может быть пустым")
+    @Size(min = 5, message = "Нельзя создать логин меньше, чем 5 символов")
     private String login;
+    @NotBlank(message = "Пароль не может быть пустым")
+    @Size(min = 8, message = "Нельзя создать пароль меньше, чем 8 символов")
     private String password;
     private String firstName;
     private String lastName;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate birthday;
     private String city;
     private boolean deleted = Boolean.FALSE;

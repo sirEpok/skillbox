@@ -9,8 +9,8 @@ create sequence IF NOT EXISTS users_scheme.comments_id_seq
 
 create table IF NOT EXISTS users_scheme.users(
                                                  id serial PRIMARY KEY,
-                                                 email character varying,
-                                                 login character varying,
+                                                 email character varying UNIQUE,
+                                                 login character varying UNIQUE,
                                                  password character varying,
                                                  first_name character varying,
                                                  last_name character varying,

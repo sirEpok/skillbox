@@ -32,7 +32,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"test@test.ru\",\r\n    \"login\": \"Anton\",\r\n    \"password\": \"password\",\r\n    \"firstName\": \"Anton\",\r\n    \"lastName\": \"Bazhin\",\r\n    \"birthday\": \"2012-12-12\"\r\n}",
+					"raw": "{\r\n    \"email\": \"test1@test.ru\",\r\n    \"login\": \"Anton\",\r\n    \"password\": \"password\",\r\n    \"firstName\": \"Anton\",\r\n    \"lastName\": \"Bazhin\",\r\n    \"birthday\": \"2012-12-12\",\r\n    \"city\": \"Perm\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -40,12 +40,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8008/users",
+					"raw": "http://localhost:8080/users",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8008",
+					"port": "8080",
 					"path": [
 						"users"
 					]

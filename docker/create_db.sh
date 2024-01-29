@@ -13,8 +13,8 @@ cache 1;
 
 create table users_scheme.users(
     id serial PRIMARY KEY,
-    email character varying,
-    login character varying,
+    email character varying UNIQUE,
+    login character varying UNIQUE,
     password character varying,
     first_name character varying,
     last_name character varying,

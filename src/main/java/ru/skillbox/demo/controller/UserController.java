@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.skillbox.demo.entity.Users;
 import ru.skillbox.demo.service.UserService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -18,7 +19,7 @@ public class UserController {
     }
 
     @PostMapping
-    ResponseEntity<?> createUser(@RequestBody Users user) {
+    ResponseEntity<?> createUser(@Valid @RequestBody Users user) {
         return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
     }
     @GetMapping(path = "/{id}")
