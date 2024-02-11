@@ -1,0 +1,183 @@
+databaseChangeLog:
+  - changeSet:
+      id: 000-1
+      author: liquibase
+      changes:
+        - sql:
+            sql: DROP SCHEMA IF EXISTS users_scheme cascade
+        - sql:
+            sql: CREATE SCHEMA IF NOT EXISTS users_scheme
+        - createTable:
+            tableName: users
+            schemaName: users_scheme
+            columns:
+              - column:
+                  name: id
+                  autoIncrement: true
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar
+                  constraints:
+                    unique: true
+              - column:
+                  name: login
+                  type: varchar
+                  constraints:
+                    unique: true
+              - column:
+                  name: password
+                  type: varchar
+              - column:
+                  name: first_name
+                  type: varchar
+              - column:
+                  name: last_name
+                  type: varchar
+              - column:
+                  name: birthday
+                  type: date
+              - column:
+                  name: city
+                  type: varchar
+              - column:
+                  name: deleted
+                  type: boolean
+        - createTable:
+            tableName: subscription
+            schemaName: users_scheme
+            columns:
+              - column:
+                  name: source_user_id
+                  type: int
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: target_user_id
+                  type: int
+                  constraints:
+                    primaryKey: true
+        - addForeignKeyConstraint:
+            constraintName: source_user_fk
+            baseTableSchemaName: users_scheme
+            baseTableName: subscription
+            baseColumnNames: source_user_id
+            referencedTableSchemaName: users_scheme
+            referencedTableName: users
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            constraintName: target_user_fk
+            baseTableSchemaName: users_scheme
+            baseTableName: subscription
+            baseColumnNames: target_user_id
+            referencedTableSchemaName: users_scheme
+            referencedTableName: users
+            referencedColumnNames: id
+        - createIndex:
+            schemaName: users_scheme
+            indexName: i_user_login
+            tableName: users
+            columns:
+              - column:
+                  name: login
+        - createIndex:
+            schemaName: users_scheme
+            indexName: i_user_city
+            tableName: users
+            columns:
+              - column:
+                  name: city
+        - createIndex:
+            schemaName: users_scheme
+            indexName: i_user_city_and_login
+            tableName: users
+            columns:
+              - column:
+                  name: login
+              - column:
+                  name: city
+  - changeSet:
+      id: 000-2
+      author: liquibase
+      changes:
+        - createSequence:
+            schemaName: users_scheme
+            sequenceName: comments_id_seq
+            startValue: 1
+            incrementBy: 1
+            cacheSize: 1
+        - createTable:
+            schemaName: users_scheme
+            tableName: posts
+            columns:
+              - column:
+                  name: id
+                  autoIncrement: true
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title_post
+                  type: varchar
+              - column:
+                  name: text_post
+                  type: text
+              - column:
+                  name: date_created
+                  type: date
+              - column:
+                  name: likes
+                  type: int
+              - column:
+                  name: user_id
+                  type: int
+        - addForeignKeyConstraint:
+            constraintName: user_post_fk
+            baseTableSchemaName: users_scheme
+            baseTableName: posts
+            baseColumnNames: user_id
+            referencedTableSchemaName: users_scheme
+            referencedTableName: users
+            referencedColumnNames: id
+        - createTable:
+            schemaName: users_scheme
+            tableName: comments
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: text_comment
+                  type: varchar
+              - column:
+                  name: likes
+                  type: int
+              - column:
+                  name: post_id
+                  type: int
+              - column:
+                  name: user_id
+                  type: int
+        - addForeignKeyConstraint:
+            constraintName: comments_post_fk
+            baseTableSchemaName: users_scheme
+            baseTableName: comments
+            baseColumnNames: post_id
+            referencedTableSchemaName: users_scheme
+            referencedTableName: posts
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            constraintName: comments_user_fk
+            baseTableSchemaName: users_scheme
+            baseTableName: comments
+            baseColumnNames: user_id
+            referencedTableSchemaName: users_scheme
+            referencedTableName: users
+            referencedColumnNames: id
